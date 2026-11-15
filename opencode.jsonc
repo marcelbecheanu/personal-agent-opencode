@@ -38,5 +38,25 @@
         }
       }
     }
+  },
+  "agents": {
+    "build": {
+      "permissions": [
+        {
+          "action": "skill",
+          "resource": "token-efficiency",
+          "effect": "allow"
+        }
+      ]
+    },
+    "plan": {
+      "permissions": [
+        {
+          "action": "skill",
+          "resource": "token-efficiency",
+          "effect": "allow"
+        }
+      ]
+    }
   }
 }
