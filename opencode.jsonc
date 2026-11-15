@@ -3,6 +3,7 @@
 
   "model": "deepseek/flash-economy",
   "default_agent": "build",
+  "small_model": "deepseek/flash-economy",
 
   "compaction": {
     "auto": true,
@@ -50,6 +51,15 @@
       ]
     },
     "plan": {
+      "permissions": [
+        {
+          "action": "skill",
+          "resource": "token-efficiency",
+          "effect": "allow"
+        }
+      ]
+    },
+    "git-commit": {
       "permissions": [
         {
           "action": "skill",
