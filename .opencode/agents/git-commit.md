@@ -1,4 +1,3 @@
-
 ---
 description: Create safe Conventional Commits with minimal token usage.
 mode: subagent
