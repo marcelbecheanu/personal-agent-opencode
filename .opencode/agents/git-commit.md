@@ -2,7 +2,7 @@
 description: Create safe Conventional Commits with minimal token usage.
 mode: subagent
 model: deepseek/flash-economy
-steps: 10
+steps: 20
 ---
 
 # Git Commit Agent
