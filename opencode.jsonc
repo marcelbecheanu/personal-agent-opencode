@@ -1,9 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
-  "model": "deepseek/flash-economy",
+  "model": "deepseek/flash-thinking",
   "default_agent": "build",
   "small_model": "deepseek/flash-economy",
+
+  // Claude Code-style working rules, loaded into every agent.
+  "instructions": [".opencode/instructions.md"],
 
   "compaction": {
     "auto": true,
@@ -15,10 +18,12 @@
 
   "providers": {
     "deepseek": {
+      "env": ["DEEPSEEK_API_KEY"],
       "models": {
+        // Cheap, fast, no reasoning: titles, summaries, commits.
         "flash-economy": {
-          "name": "DeepSeek Flash Economy",
-          "modelID": "deepseek-flash",
+          "name": "DeepSeek V4 Flash (economy)",
+          "modelID": "deepseek-v4-flash",
           "limit": {
             "context": 1000000,
             "output": 8192
@@ -29,43 +34,79 @@
             }
           }
         },
+        // Default coding model: flash with thinking for better tool use and fixes.
+        "flash-thinking": {
+          "name": "DeepSeek V4 Flash (thinking)",
+          "modelID": "deepseek-v4-flash",
+          "limit": {
+            "context": 1000000,
+            "output": 32768
+          },
+          "body": {
+            "thinking": {
+              "type": "enabled"
+            },
+            "reasoning_effort": "high"
+          }
+        },
+        // Strongest model: planning, reviews, hard debugging.
         "pro-reasoning": {
-          "name": "DeepSeek Pro Reasoning",
+          "name": "DeepSeek V4 Pro (reasoning)",
           "modelID": "deepseek-v4-pro",
           "limit": {
             "context": 1000000,
-            "output": 8192
+            "output": 32768
+          },
+          "body": {
+            "thinking": {
+              "type": "enabled"
+            },
+            "reasoning_effort": "high"
           }
         }
       }
     }
   },
+
   "agents": {
     "build": {
       "permissions": [
-        {
-          "action": "skill",
-          "resource": "token-efficiency",
-          "effect": "allow"
-        }
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" },
+        { "action": "skill", "resource": "agent-discipline", "effect": "allow" },
+        { "action": "shell", "resource": "git push*", "effect": "deny" },
+        { "action": "shell", "resource": "git reset --hard*", "effect": "ask" },
+        { "action": "shell", "resource": "git clean*", "effect": "ask" },
+        { "action": "shell", "resource": "rm -rf*", "effect": "ask" }
       ]
     },
     "plan": {
       "permissions": [
-        {
-          "action": "skill",
-          "resource": "token-efficiency",
-          "effect": "allow"
-        }
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" },
+        { "action": "skill", "resource": "agent-discipline", "effect": "allow" }
+      ]
+    },
+    "review": {
+      "permissions": [
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" },
+        { "action": "skill", "resource": "agent-discipline", "effect": "allow" }
+      ]
+    },
+    "explore": {
+      "permissions": [
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" }
+      ]
+    },
+    "general": {
+      "permissions": [
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" },
+        { "action": "skill", "resource": "agent-discipline", "effect": "allow" },
+        { "action": "shell", "resource": "git push*", "effect": "deny" }
       ]
     },
     "git-commit": {
       "permissions": [
-        {
-          "action": "skill",
-          "resource": "token-efficiency",
-          "effect": "allow"
-        }
+        { "action": "skill", "resource": "token-efficiency", "effect": "allow" },
+        { "action": "shell", "resource": "git push*", "effect": "deny" }
       ]
     }
   }

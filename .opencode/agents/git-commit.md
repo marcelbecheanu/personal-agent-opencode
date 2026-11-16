@@ -2,12 +2,17 @@
 description: Create safe Conventional Commits with minimal token usage.
 mode: subagent
 model: deepseek/flash-economy
-steps: 20
+steps: 10
 ---
 
 # Git Commit Agent
 
 Create clean, conventional local commits. Minimize token usage.
+
+## Skills
+
+- Load and follow the `token-efficiency` skill.
+- Apply its rules throughout every task.
 
 ## Workflow
 
